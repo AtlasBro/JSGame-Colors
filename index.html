@@ -166,11 +166,11 @@ body {
 
 <main>
   <div class="controls">
-    <div class="new-game">New Game</div>
+<!--    <div class="new-game">New Game</div>-->
     <div id="easy" class="new-game">简单</div>
     <div id="medium" class="new-game">中等</div>
     <div id="hard" class="new-game">困难</div>
-    <div>Moves <span id="moves" class="moves">0</span> / <span>35</span></div>
+    <div>Moves <span id="moves" class="moves">0</span> / <span id="maxmoves">35</span></div>
   </div>
   <div id="board"></div>
   <div id="colors"></div>
@@ -192,19 +192,24 @@ body {
 
   let running = false
 
-  let skill=4
+  let skill=3
   let cell = '-x'
+
+  //选择难度
     if(document.getElementById('easy').onclick=function (){
       skill = 3
+      document.getElementById('maxmoves').innerHTML=15;
     });
 
     if(document.getElementById('medium').onclick=function (){
       skill = 5
+      document.getElementById('maxmoves').innerHTML=25;
     });
 
-  if(document.getElementById('hard').onclick=function (){
-    skill = 7
-  });
+    if(document.getElementById('hard').onclick=function (){
+      skill = 7
+      document.getElementById('maxmoves').innerHTML=35;
+    });
 
   let tally = 0
   let cap = 35
@@ -317,15 +322,28 @@ body {
 //判断Moves
   function getMoves(){
     let moves=document.getElementById('moves').innerHTML++
-    if(moves>=35){
+    let maxmoves=0
+    switch (skill){
+      default:maxmoves=15;
+        break;
+      case 3:maxmoves=15;
+        break;
+      case 5:maxmoves=25;
+        break;
+      case 7:maxmoves=35;
+        break;
+    }
+    if(moves>=maxmoves){
       alert("超过步数上限！")
       setInterval(newGame(),3000)
     }
   }
 
+  let colorbox=document.getElementById('colors')
+  colorbox.addEventListener('click',getMoves)
+
   document.addEventListener('click', (event) => {
     let css = Array.from(event.target.classList)
-    getMoves()
     if(event.target.tagName === 'CHIP') {
       play(event.target.className)
     }
