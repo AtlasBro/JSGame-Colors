@@ -161,22 +161,15 @@ body {
   font-size: 3em;
 }
 </style>
-  <script>
-    function easy(){
-      skill=3;
-    }
-    function medium(){
-      skill=5;
-    }
-  </script>
 </head>
 <body>
 
 <main>
   <div class="controls">
     <div class="new-game">New Game</div>
-    <div id="easy" onclick="easy()" class="new-game">简单</div>
-    <div id="medium" onclick="medium()" class="new-game">中等</div>
+    <div id="easy" class="new-game">简单</div>
+    <div id="medium" class="new-game">中等</div>
+    <div id="hard" class="new-game">困难</div>
     <div>Moves <span id="moves" class="moves">0</span> / <span>35</span></div>
   </div>
   <div id="board"></div>
@@ -194,19 +187,28 @@ body {
   let colors = document.querySelector('#colors')
   let gameover = document.querySelector('#game-over')
 
-  // control variables 
+  // control variables
   let colorArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
   let running = false
 
+  let skill=4
   let cell = '-x'
-  if(document.getElementById('easy').)
-  let skill = 　//颜色种类
+    if(document.getElementById('easy').onclick=function (){
+      skill = 3
+    });
+
+    if(document.getElementById('medium').onclick=function (){
+      skill = 5
+    });
+
+  if(document.getElementById('hard').onclick=function (){
+    skill = 7
+  });
+
   let tally = 0
   let cap = 35
   let color
-
-
 
   //  game play methods
   // ----------------------------
@@ -312,6 +314,7 @@ body {
     newGame()
   }, false)
 
+//判断Moves
   function getMoves(){
     let moves=document.getElementById('moves').innerHTML++
     if(moves>=35){
