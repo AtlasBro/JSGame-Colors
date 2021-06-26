@@ -1,4 +1,4 @@
- // parts of the game board
+//游戏面板
     let moves = document.querySelector('.moves')
     // ?
     let board = document.querySelector('#board')
@@ -12,27 +12,31 @@
 
     let skill=3
     let cell = '-x'
-
+    var cap = 15
     //选择难度
     document.getElementById('easy').onclick=function (){
     skill = 3
     document.getElementById('maxmoves').innerHTML=15
+        cap=15
 }
 
     document.getElementById('medium').onclick=function (){
     skill = 5
     document.getElementById('maxmoves').innerHTML=25
+        cap=25
 }
 
     document.getElementById('hard').onclick=function (){
     skill = 7
     document.getElementById('maxmoves').innerHTML=35
+        cap=35
 }
 
     let tally = 0
-    let cap = 35
     let color
-
+    let winTime = 0
+    let currentWinTime=document.getElementById("wintimes")
+    let mostWinTimes=document.getElementById("mostwintimes")
     //  game play methods
     // ----------------------------
     let shuffle = (collection) => {
@@ -63,11 +67,23 @@
     if (n === 100) {
     msg = '<span class="new-game">You Win!</span>'
     running = false
+        //连胜次数增加
+        winTime++
+        //更新连胜次数和最高连胜次数
+        currentWinTime.innerHTML=winTime
+        mostWinTimes.innerHTML=winTime
+        let value=sessionStorage.getItem("highscore")
+        if(winTime>=value){
+            mostWinTimes.innerHTML=winTime
+            sessionStorage.setItem("highscore",winTime)
+        }
 } else if (n < 100 && moves >= cap) {
     msg = '<span class="new-game">Oops! Try Again...</span>'
     running = false
+        //清空连胜次数
+        currentWinTime.innerHTML=0
 }
-}
+    }
     if(!running) {
     gameover.innerHTML = msg
 }
@@ -127,6 +143,7 @@
     board.className = 'started'
 }
     tally++
+        moves.innerText=tally
     //?
     checkColor(chip)
     checkWin(tally)
@@ -138,27 +155,27 @@
 }, false)
 
 //判断Moves
-    function getMoves(){
-    let moves=document.getElementById('moves').innerHTML++
-    let maxmoves=0
-    switch (skill){
-    default:maxmoves=15;
-    break;
-    case 3:maxmoves=15;
-    break;
-    case 5:maxmoves=25;
-    break;
-    case 7:maxmoves=35;
-    break;
-}
-    if(moves>=maxmoves){
-    alert("超过步数上限！")
-    setInterval(newGame(),3000)
-}
-}
+//     function getMoves(){
+//     let moves=document.getElementById('moves').innerHTML++
+//     let maxmoves=0
+//     switch (skill){
+//     default:maxmoves=15;
+//     break;
+//     case 3:maxmoves=15;
+//     break;
+//     case 5:maxmoves=25;
+//     break;
+//     case 7:maxmoves=35;
+//     break;
+// }
+//     if(moves>=maxmoves){
+//     // alert("超过步数上限！")
+//     // setInterval(newGame(),3000)
+// }
+// }
     //点击后步数增加
-    let colorbox=document.getElementById('colors')
-    colorbox.addEventListener('click',getMoves)
+    // let colorbox=document.getElementById('colors')
+    // colorbox.addEventListener('click',getMoves)
 
     document.addEventListener('click', (event) => {
     let css = Array.from(event.target.classList)
